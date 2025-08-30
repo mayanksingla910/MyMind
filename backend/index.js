@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import authRoutes from './routes/authRoutes.js';
+import authRoutes from './src/routes/authRoutes.js';
+import taskRoutes from './src/routes/taskRoutes.js';
 
 const app = express();
 app.use(cors());
@@ -9,6 +10,7 @@ app.use(express.json());
 const LoggedIn = false; // Simulating a user not logged in
 
 app.use('/api/auth', authRoutes);
+app.use('/api/tasks', taskRoutes); // Corrected to use taskRoutes
 
 app.get('/', (req, res) => {
     try{
