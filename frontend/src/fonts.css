@@ -1,0 +1,89 @@
+/* Regular */
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-RegularItalic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Light (300) */
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-LightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* SemiBold (600) */
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-SemiBoldItalic.woff') format('woff');
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Bold (700) */
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-BoldItalic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* ExtraBold (800) */
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-ExtraBold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-ExtraBoldItalic.woff') format('woff');
+  font-weight: 800;
+  font-style: italic;
+}
+
+/* Black (900) */
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Code Next';
+  src: url('./assets/fonts/CodeNext-Trial-BlackItalic.woff') format('woff');
+  font-weight: 900;
+  font-style: italic;
+}
