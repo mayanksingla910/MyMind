@@ -7,31 +7,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
+model User {
   id          Int         @id @default(autoincrement())
   email       String      @unique
   name        String?
   password    String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  
 
   todos       Todo[]
+  lists       List[]
 }
 
 model Todo {
   id          Int         @id @default(autoincrement())
   title       String
   description String?
-  dueTime     DateTime?
+  dueAt       DateTime?  
   completed   Boolean     @default(false)
   starred     Boolean     @default(false)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   userId      Int
-  listId     Int?
+  listId      Int?
 
-  user        User        @relation(fields: [userId], references: [id])
-  
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  list        List?       @relation(fields: [listId], references: [id], onDelete: SetNull)
+
   @@index([userId])
+  @@index([userId, completed]) 
+  @@index([userId, starred])   
+}
+
+model List {
+  id          Int         @id @default(autoincrement())
+  name        String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  userId      Int
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  todos       Todo[]
+
+  @@index([userId])
+  @@unique([userId, name]) 
 }
