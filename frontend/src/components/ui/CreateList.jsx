@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import { Button } from "./Button";
 
 const COLORS = [
@@ -7,7 +8,17 @@ const COLORS = [
 
 export default function CreateList({ setAddList }) {
   const [listName, setListName] = useState("");
-  const [selectedColor, setSelectedColor] = useState(COLORS[2]); // Default to blue
+  const [selectedColor, setSelectedColor] = useState(COLORS[2]);
+
+  async function createList() {
+    try {
+      await axios.post("http://localhost:3000/api/lists", { name: listName, color: selectedColor });
+      setListName("");
+      setAddList(false);
+    } catch (error) {
+      console.error("Error creating list", error);
+    }
+  }
 
   return (
     <div className="mt-2 bg-gray-100 p-4 rounded-lg border border-neutral-300 w-full max-w-md">
@@ -35,7 +46,7 @@ export default function CreateList({ setAddList }) {
         ))}
       </div>
       <div className="flex gap-2 ">
-        <Button className="w-1/2" disabled={!listName}>Add</Button>
+        <Button className="w-1/2" disabled={!listName} onClick={(createList)}>Add</Button>
         <Button
           className="w-1/2"
           variant="outline"
