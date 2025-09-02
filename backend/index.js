@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import authRoutes from './src/routes/authRoutes.js';
 import taskRoutes from './src/routes/taskRoutes.js';
+import listRoutes from './src/routes/listRoutes.js';
 
 const app = express();
 app.use(cors());

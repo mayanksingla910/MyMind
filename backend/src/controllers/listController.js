@@ -10,14 +10,13 @@ export const createList = async (req, res) => {
         if (!name || !color) {
             return res.status(400).json({ error: 'Name and color are required' });
         }
-
-        const existingList = await prisma.list.findUnique({
+        const existingList = await prisma.list.findFirst({
             where: {
                 name, userId
             }
         });
 
-        if(name === existingList?.name) {
+        if(existingList) {
             return res.status(400).json({ error: 'List with this name already exists' });
         }
 
@@ -28,6 +27,7 @@ export const createList = async (req, res) => {
                 userId
             }
         });
+
         res.status(201).json(newList);
     } catch (error) {
         res.status(500).json({ error: 'Failed to create list' });
