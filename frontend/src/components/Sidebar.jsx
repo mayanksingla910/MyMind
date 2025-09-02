@@ -47,6 +47,7 @@ export default function Sidebar() {
           <ul ></ul>
           <div>
             <ListItem icon={faPlus} label="New List" onClick={() => setAddList(true)} />
+            <SidebarItem />
             {addList && (
               <CreateList setAddList={setAddList} />
               )}
