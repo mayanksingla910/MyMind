@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { Button } from "./Button";
+import { Button } from "../ui/Button";
 
 const COLORS = [
   "#FF6B6B", "#DA77F2", "#9775FA", "#5C7CFA", "#66D9E8", "#8CE99A", "#FFD43B", "#FF922B",
@@ -21,7 +21,7 @@ export default function CreateList({ setAddList }) {
   }
 
   return (
-    <div className="mt-2 bg-gray-100 p-4 rounded-lg border border-neutral-300 w-full max-w-md">
+    <div className=" bg-gray-100 p-4 rounded-lg border border-neutral-300 w-full max-w-md">
       <div className="flex items-center mb-4 p-2 border border-neutral-200 rounded ">
         <div className="w-5 h-5 rounded bg-[selectedColor] mr-2" style={{ background: selectedColor }} />
         <input
