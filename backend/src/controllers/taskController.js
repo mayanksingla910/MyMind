@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const createTask = async (req, res) => {
-    const {title, description, dueTime, listId} = req.body;
+    const {title, description, dueAt, listId} = req.body;
     const userId = req.user.id;
 
     if (!title) {
@@ -11,15 +11,15 @@ export const createTask = async (req, res) => {
     }
     try {
         const newTask = await prisma.todo.create({
-            data : {
+            data: {
                 title,
                 description: description || '',
-                dueTime: dueTime ? new Date(req.body.dueDate) : null,
-                listId: listId ? parseInt(req.body.listId) : null,
+                dueAt: dueAt ? new Date(dueAt) : null,
+                listId: listId && !isNaN(Number(listId)) ? Number(listId) : null,
                 starred: false,
                 completed: false,
-                userId
-            }
+                userId,
+            },
         });
         res.status(201).json(newTask);
     }catch(err) {
@@ -29,11 +29,17 @@ export const createTask = async (req, res) => {
 };
 
 export const getTasks = async (req, res) => {
+    const { completed, listId } = req.query;
     const userId = req.user.id;
+    const filter = {};
 
+    if(completed !== undefined) filter.completed = completed === 'true';
+    if (listId && !isNaN(Number(listId))) filter.listId = Number(listId);
+    filter.userId = userId;
+    
     try {
         const tasks = await prisma.todo.findMany({
-            where: { userId: userId },
+            where: filter,
             orderBy: { createdAt: 'desc' }
         });
         res.status(200).json(tasks);
@@ -45,7 +51,7 @@ export const getTasks = async (req, res) => {
 
 export const updateTask = async (req, res) => {
     const userId = req.user.id;
-    const { title, description, dueTime, listId, starred, completed } = req.body;
+    const { title, description, dueAt, listId, starred, completed } = req.body;
     const taskId = parseInt(req.params.id);
 
     try {
@@ -60,7 +66,7 @@ export const updateTask = async (req, res) => {
             data: {
                 title: title !== undefined ? title : existingTask.title,
                 description: description !== undefined ? description : existingTask.description,
-                dueTime: dueTime !== undefined ? (dueTime ? new Date(dueTime) : null) : existingTask.dueTime,
+                dueAt: dueAt !== undefined ? (dueAt ? new Date(dueAt) : null) : existingTask.dueAt,
                 listId: listId !== undefined ? (listId ? parseInt(listId) : null) : existingTask.listId,
                 starred: starred !== undefined ? starred : existingTask.starred,
                 completed: completed !== undefined ? completed : existingTask.completed,
@@ -87,7 +93,7 @@ export const deleteTask = async (req, res) => {
         await prisma.todo.delete({
             where: { id: taskId }
         });
-        res.status(204).send();
+        return res.status(200).json({ message: "Task deleted" });
     }catch(err) {
         console.error('deleteTask error', err);
         res.status(500).json({ error: 'Error deleting task' });
