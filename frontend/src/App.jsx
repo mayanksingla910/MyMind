@@ -4,15 +4,30 @@ import Sidebar from './components/sidebar/Sidebar'
 import './App.css'
 import Upcoming from './pages/Upcoming'
 
-function App() {
-    return(
-        <Router>
-            <Sidebar />
-            <Routes>
-                <Route path="/tasks" element={<Upcoming />} />
-            </Routes>
-        </Router>
-    )
+function MainLayout({ children }) {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  return (
+    <div className="flex h-screen">
+      <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+      <main className={`flex-1 transition-margin duration-300 ${sidebarOpen ? "ml-[19rem] " : "ml-10"} p-6 overflow-auto`}>
+        {children}
+      </main>
+    </div>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <Router>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Upcoming />} />
+        </Routes>
+      </MainLayout>
+    </Router>
+  );
+}
+
+export default App;
+

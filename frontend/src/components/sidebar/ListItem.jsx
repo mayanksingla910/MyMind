@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export default function ListItem({ color, name, onClick, active }) {
   return (
@@ -16,6 +17,19 @@ export default function ListItem({ color, name, onClick, active }) {
       >
         {name}
       </span>
+      <div className="ml-auto flex space-x-2">
+        <FontAwesomeIcon
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick("edit");}}
+          icon={faPen}
+          className={` text-neutral-600 w-3.5 h-3.5 mr-1 invisible group-hover:visible transition-transform duration-300 hover:scale-125`}
+        />
+        <FontAwesomeIcon
+          icon={faTrash}
+          className={` text-neutral-600 w-3.5 h-3.5 invisible group-hover:visible transition-transform duration-300 hover:scale-125 `}
+        />
+      </div>
     </li>
   );
 }

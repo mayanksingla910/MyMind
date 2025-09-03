@@ -5,8 +5,7 @@ import TasksSection from "./TaskSection";
 import ListsSection from "./ListsSection";
 import SettingsSection from "./SettingSection";
 
-export default function Sidebar() {
-  const [open, setOpen] = useState(true);
+export default function Sidebar({ open, setOpen }) {
   const [activeIndex, setActiveIndex] = useState(null);
   const [addList, setAddList] = useState(false);
   const [listItems, setListItems] = useState([]);
@@ -48,8 +47,8 @@ export default function Sidebar() {
   }, [addList]);
 
   return (
-    <div className={`fixed flex flex-col top-5 bottom-5 left-5 p-4 w-80 bg-gray-100 rounded-xl transform transition-transform duration-500 ${
-      open ? "translate-x-0" : "-translate-x-full"
+    <div className={`fixed flex flex-col top-5 bottom-5 left-5 p-4 w-72 bg-gray-100 rounded-xl transform transition-transform duration-500 ${
+      open ? "translate-x-0 " : "-translate-x-full"
       } hover:translate-x-0`}>
       
       <SidebarHeader open={open} setOpen={setOpen} />
@@ -59,7 +58,7 @@ export default function Sidebar() {
         setActiveIndex={setActiveIndex}
         setActiveListIndex={setActiveListIndex}
       />
-
+      <div className="border-b border-neutral-200 my-3" />
       <ListsSection
         scrollRef={scrollRef}
         listItems={listItems}

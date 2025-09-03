@@ -9,8 +9,8 @@ const items = [
 
 export default function TasksSection({ activeIndex, setActiveIndex, setActiveListIndex }) {
   return (
-    <div className="ml-1 mb-4">
-      <p className="text-xs font-bold text-neutral-600 mb-2">TASKS</p>
+    <div className="ml-1 mb-2">
+      <p className="text-xs font-bold text-neutral-600">TASKS</p>
       <ul>
         {items.map((item, index) => (
           <SidebarItem

@@ -21,7 +21,7 @@ export default function CreateList({ setAddList }) {
   }
 
   return (
-    <div className=" bg-gray-100 p-4 rounded-lg border border-neutral-300 w-full max-w-md">
+    <div className=" bg-gray-100 p-4 rounded-lg border border-neutral-300 w-full max-w-md hover:shadow-md focus-within:shadow-md transition-shadow duration-200">
       <div className="flex items-center mb-4 p-2 border border-neutral-200 rounded ">
         <div className="w-5 h-5 rounded bg-[selectedColor] mr-2" style={{ background: selectedColor }} />
         <input
