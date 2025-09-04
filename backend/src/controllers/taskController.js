@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const createTask = async (req, res) => {
-    const {title, description, dueAt, listId} = req.body;
+    const {title, description, dueDate, listId} = req.body;
     const userId = req.user.id;
 
     if (!title) {
@@ -14,7 +14,7 @@ export const createTask = async (req, res) => {
             data: {
                 title,
                 description: description || '',
-                dueAt: dueAt ? new Date(dueAt) : null,
+                dueAt: dueDate ? new Date(dueDate) : null,
                 listId: listId && !isNaN(Number(listId)) ? Number(listId) : null,
                 starred: false,
                 completed: false,
@@ -51,7 +51,7 @@ export const getTasks = async (req, res) => {
 
 export const updateTask = async (req, res) => {
     const userId = req.user.id;
-    const { title, description, dueAt, listId, starred, completed } = req.body;
+    const { title, description, dueDate, listId, starred, completed } = req.body;
     const taskId = parseInt(req.params.id);
 
     try {
@@ -66,7 +66,7 @@ export const updateTask = async (req, res) => {
             data: {
                 title: title !== undefined ? title : existingTask.title,
                 description: description !== undefined ? description : existingTask.description,
-                dueAt: dueAt !== undefined ? (dueAt ? new Date(dueAt) : null) : existingTask.dueAt,
+                dueDate: dueDate !== undefined ? (dueDate ? new Date(dueDate) : null) : existingTask.dueDate,
                 listId: listId !== undefined ? (listId ? parseInt(listId) : null) : existingTask.listId,
                 starred: starred !== undefined ? starred : existingTask.starred,
                 completed: completed !== undefined ? completed : existingTask.completed,
