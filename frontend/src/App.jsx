@@ -3,16 +3,20 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Sidebar from './components/sidebar/Sidebar'
 import './App.css'
 import Upcoming from './pages/Upcoming'
+import List from '@mui/material/List'
+import { ListsProvider } from './context/listContext'
 
 function MainLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
     <div className="flex h-screen">
+      <ListsProvider>
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
       <main className={`flex-1 transition-margin duration-300 ${sidebarOpen ? "ml-[19rem] " : "ml-10"} p-6 overflow-auto`}>
         {children}
       </main>
+      </ListsProvider>
     </div>
   );
 }

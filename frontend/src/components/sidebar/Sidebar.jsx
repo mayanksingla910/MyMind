@@ -1,14 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import SidebarHeader from "./SidebarHeader";
-import TasksSection from "./TaskSection";
+import SidebarHeader from "./sidebarHeader";
+import TasksSection from "./taskSection";
 import ListsSection from "./ListsSection";
 import SettingsSection from "./SettingSection";
+import { ListsContext } from "../../context/listContext";
 
 export default function Sidebar({ open, setOpen }) {
   const [activeIndex, setActiveIndex] = useState(null);
   const [addList, setAddList] = useState(false);
-  const [listItems, setListItems] = useState([]);
+  const {listItems, setListItems} = useContext(ListsContext);
   const [activeListIndex, setActiveListIndex] = useState(null);
 
   const scrollRef = useRef(null);

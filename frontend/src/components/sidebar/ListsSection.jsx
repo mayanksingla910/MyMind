@@ -1,5 +1,5 @@
 import ListItem from "./ListItem";
-import SidebarItem from "./SidebarItem";
+import SidebarItem from "./sidebarItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import CreateList from "./CreateList";
@@ -21,7 +21,7 @@ export default function ListsSection({
 
   return (
     <div className="flex flex-col" style={{ maxHeight: maxHeight || "auto" }}>
-      <p className="text-xs font-bold text-neutral-600 mb-2">LISTS</p>
+      <p className="text-xs font-bold text-neutral-700 mb-2">LISTS</p>
 
       <div ref={scrollRef} className="overflow-y-auto ml-1 pr-1 custom-scrollbar" style={{ maxHeight: maxHeight || "auto" }}>
         {listItems.map((list, index) => (
@@ -39,7 +39,7 @@ export default function ListsSection({
       </div>
       <div className="flex items-center p-2 ml-0 rounded-lg cursor-pointer hover:bg-gray-200 group " onClick={openAddList}>
         <FontAwesomeIcon icon={faPlus} className="text-neutral-600 mr-3" />
-        <p className="font-semibold text-neutral-700 group-hover:font-bold">New List</p>
+        <p className="font-medium text-neutral-700 group-hover:font-semibold">New List</p>
       </div>
       {addList && <CreateList setAddList={setAddList} />}
     </div>

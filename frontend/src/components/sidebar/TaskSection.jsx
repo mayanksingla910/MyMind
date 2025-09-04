@@ -1,4 +1,4 @@
-import SidebarItem from "./SidebarItem";
+import SidebarItem from "./sidebarItem";
 import { faAnglesRight, faListCheck, faNoteSticky } from "@fortawesome/free-solid-svg-icons";
 
 const items = [
@@ -10,7 +10,7 @@ const items = [
 export default function TasksSection({ activeIndex, setActiveIndex, setActiveListIndex }) {
   return (
     <div className="ml-1 mb-2">
-      <p className="text-xs font-bold text-neutral-600">TASKS</p>
+      <p className="text-xs font-bold text-neutral-700">TASKS</p>
       <ul>
         {items.map((item, index) => (
           <SidebarItem

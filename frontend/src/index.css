@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 *{
-    font-family: 'Code Next', sans-serif;
+    font-family: 'Lexend', sans-serif;
 }
+
 
 .custom-scrollbar {
   scrollbar-width: none;
@@ -43,4 +44,11 @@
   display: none;
   width: 0;
   height: 0;
+}
+
+
+/* Style calendar picker icon on WebKit browsers */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.4);
 }

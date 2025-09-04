@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        codeNext: ['"Code Next"', 'sans-serif'],
+        lexend: ['Lexend', 'sans-serif'],
       },
     },
   },

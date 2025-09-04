@@ -27,9 +27,9 @@ export default function CreateList({ setAddList }) {
         <input
           value={listName}
           onChange={e => setListName(e.target.value)}
-          className="flex-1 bg-transparent text-sm font-semibold outline-none placeholder-neutral-500 caret-neutral-500"
+          className="flex-1 bg-transparent text-sm font-medium outline-none placeholder-neutral-500 caret-neutral-500"
           placeholder="List Name"
-          maxLength={20}
+          maxLength={30}
           minLength={1}
           autoFocus
         />

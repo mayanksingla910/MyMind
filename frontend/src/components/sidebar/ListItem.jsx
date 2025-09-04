@@ -12,7 +12,7 @@ export default function ListItem({ color, name, onClick, active }) {
       <div className="w-4 h-4 rounded mr-3" style={{background:color}} />
       <span
         className={`${
-          active ? "font-bold text-neutral-700" : "font-semibold text-neutral-700 group-hover:font-bold"
+          active ? "font-bold text-neutral-600" : "font-medium text-neutral-700 group-hover:font-semibold"
         }`}
       >
         {name}

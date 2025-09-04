@@ -14,7 +14,7 @@ export default function SidebarItem({ icon, label, onClick, active }) {
       />
       <span
         className={`${
-          active ? "font-bold text-neutral-700" : "font-semibold text-neutral-700 group-hover:font-bold"
+          active ? "font-bold text-neutral-700" : "font-medium text-neutral-600 group-hover:font-semibold"
         }`}
       >
         {label}
