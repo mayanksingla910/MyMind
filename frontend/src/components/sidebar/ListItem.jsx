@@ -1,5 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import AnimatedRippleButton from "../ui/animatedRippleButton";
+import Icon from "@mui/material/Icon";
 
 export default function ListItem({ color, name, onClick, active }) {
   return (
@@ -17,18 +19,14 @@ export default function ListItem({ color, name, onClick, active }) {
       >
         {name}
       </span>
-      <div className="ml-auto flex space-x-2">
-        <FontAwesomeIcon
-          onClick={(e) => {
-            e.stopPropagation();
-            onClick("edit");}}
-          icon={faPen}
-          className={` text-neutral-600 w-3.5 h-3.5 mr-1 invisible group-hover:visible transition-transform duration-300 hover:scale-125`}
-        />
-        <FontAwesomeIcon
-          icon={faTrash}
-          className={` text-neutral-600 w-3.5 h-3.5 invisible group-hover:visible transition-transform duration-300 hover:scale-125 `}
-        />
+      <div className="ml-auto flex invisible group-hover:visible space-x-2">
+        <AnimatedRippleButton onClick={(e) => {e.stopPropagation(); onClick("edit")}}>
+          <FontAwesomeIcon icon={faPen} className="text-neutral-500 w-4 h-4" />
+        </AnimatedRippleButton>
+        <AnimatedRippleButton onClick={(e) => {e.stopPropagation(); onClick("edit")}}>
+          <FontAwesomeIcon icon={faTrash} className="text-neutral-500 w-4 h-4" />
+        </AnimatedRippleButton>
+        
       </div>
     </li>
   );

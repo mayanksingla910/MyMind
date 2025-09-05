@@ -8,12 +8,13 @@ import { ListsProvider } from './context/listContext'
 
 function MainLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarHovered, setIsSidebarHovered] = useState(false);
 
   return (
     <div className="flex h-screen">
       <ListsProvider>
-      <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
-      <main className={`flex-1 transition-margin duration-300 ${sidebarOpen ? "ml-[19rem] " : "ml-10"} p-6 overflow-auto`}>
+      <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} setIsSidebarHovered={setIsSidebarHovered} />
+      <main className={`flex-1 transition-margin duration-300 ${(sidebarOpen || isSidebarHovered )? "ml-[19rem] " : "ml-10"} p-6 overflow-auto`}>
         {children}
       </main>
       </ListsProvider>

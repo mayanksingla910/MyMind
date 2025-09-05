@@ -6,7 +6,7 @@ import ListsSection from "./ListsSection";
 import SettingsSection from "./SettingSection";
 import { ListsContext } from "../../context/listContext";
 
-export default function Sidebar({ open, setOpen }) {
+export default function Sidebar({ open, setOpen, setIsSidebarHovered }) {
   const [activeIndex, setActiveIndex] = useState(null);
   const [addList, setAddList] = useState(false);
   const {listItems, setListItems} = useContext(ListsContext);
@@ -50,7 +50,10 @@ export default function Sidebar({ open, setOpen }) {
   return (
     <div className={`fixed flex flex-col top-5 bottom-5 left-5 p-4 w-72 bg-gray-100 rounded-xl transform transition-transform duration-500 ${
       open ? "translate-x-0 " : "-translate-x-full"
-      } hover:translate-x-0`}>
+      } hover:translate-x-0`}
+      onMouseEnter={() => setIsSidebarHovered(true)}
+      onMouseLeave={() => setIsSidebarHovered(false)}
+    >
       
       <SidebarHeader open={open} setOpen={setOpen} />
 
