@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import SidebarHeader from "./sidebarHeader";
 import TasksSection from "./taskSection";
-import ListsSection from "./ListsSection";
+import ListsSection from "./listsSection";
 import SettingsSection from "./SettingSection";
 import { ListsContext } from "../../context/listContext";
 

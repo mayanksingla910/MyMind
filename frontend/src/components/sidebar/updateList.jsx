@@ -6,17 +6,18 @@ const COLORS = [
   "#FF6B6B", "#DA77F2", "#9775FA", "#5C7CFA", "#66D9E8", "#8CE99A", "#FFD43B", "#FF922B",
 ];
 
-export default function CreateList({ setAddList }) {
-  const [listName, setListName] = useState("");
-  const [selectedColor, setSelectedColor] = useState(COLORS[2]);
+export default function UpdateList({ list, setUpdateList, onUpdateList }) {
+  const [listName, setListName] = useState(list.name);
+  const [selectedColor, setSelectedColor] = useState(list.color);
 
-  async function createList() {
+  async function updateList() {
     try {
-      await axios.post("http://localhost:3000/api/lists", { name: listName, color: selectedColor });
+      const res = await axios.put(`http://localhost:3000/api/lists/${list.id}`, { name: listName, color: selectedColor });
       setListName("");
-      setAddList(false);
+      setUpdateList(false);
+      if(onUpdateList) onUpdateList(res.data);
     } catch (error) {
-      console.error("Error creating list", error);
+      console.error("Error updating list", error);
     }
   }
 
@@ -46,11 +47,11 @@ export default function CreateList({ setAddList }) {
         ))}
       </div>
       <div className="flex gap-2 ">
-        <Button className="w-1/2" disabled={!listName} onClick={(createList)}>Add</Button>
+        <Button className="w-1/2" disabled={!listName} onClick={(updateList)}>Update</Button>
         <Button
           className="w-1/2"
           variant="outline"
-          onClick={() => setAddList(false)}
+          onClick={() => setUpdateList(false)}
         >Cancel</Button>
       </div>
     </div>

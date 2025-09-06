@@ -3,7 +3,7 @@ import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import AnimatedRippleButton from "../ui/animatedRippleButton";
 import axios from "axios";
 
-export default function ListItem({ list, onClick, active, onDeleteList }) {
+export default function ListItem({ list, onClick, active, onDeleteList, onEditList }) {
   const deleteList = async (e) => {
 
     try {
@@ -32,7 +32,7 @@ export default function ListItem({ list, onClick, active, onDeleteList }) {
         {list.name}
       </span>
       <div className="ml-auto flex invisible group-hover:visible space-x-2">
-        <AnimatedRippleButton onClick={(e) => { e.stopPropagation(); onClick("edit"); }}>
+        <AnimatedRippleButton onClick={() => onEditList(list)}>
           <FontAwesomeIcon icon={faPen} className="text-neutral-500 w-4 h-4" />
         </AnimatedRippleButton>
         <AnimatedRippleButton onClick={deleteList}>
