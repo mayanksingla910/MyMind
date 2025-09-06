@@ -21,7 +21,7 @@ export default function Sidebar({ open, setOpen, setIsSidebarHovered }) {
       if (scrollRef.current && settingsRef.current) {
         const scrollTop = scrollRef.current.getBoundingClientRect().top;
         const settingsTop = settingsRef.current.getBoundingClientRect().top;
-        const availableHeight = settingsTop - scrollTop + 20;
+        const availableHeight = settingsTop - scrollTop + 10;
         setMaxHeight(availableHeight);
       }
     }
@@ -66,6 +66,7 @@ export default function Sidebar({ open, setOpen, setIsSidebarHovered }) {
       <ListsSection
         scrollRef={scrollRef}
         listItems={listItems}
+        setListItems={setListItems}
         activeListIndex={activeListIndex}
         setActiveListIndex={setActiveListIndex}
         activeIndex={activeIndex}
@@ -75,6 +76,7 @@ export default function Sidebar({ open, setOpen, setIsSidebarHovered }) {
         maxHeight={maxHeight}
       />
 
+      <div className="border-b border-neutral-200 my-2" />
       <SettingsSection
         settingsRef={settingsRef}
         setActiveIndex={setActiveIndex}

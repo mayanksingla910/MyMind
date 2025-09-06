@@ -31,7 +31,6 @@ export default function AnimatedRippleButton({ onClick, children }) {
         onClick && onClick();
       }}
       className="relative overflow-hidden rounded-full w-7 h-7 bg-transparent hover:bg-gray-300 active:bg-slate-200 transition-colors focus:outline-none flex items-center justify-center"
-      aria-label="Edit"
     >
       {ripples.map(({ key, x, y, diameter }) => (
         <span

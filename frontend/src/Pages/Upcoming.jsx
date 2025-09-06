@@ -27,6 +27,14 @@ export default function Upcoming() {
     );
   };
 
+  const handleCheckToggle =(taskId, isCompleted) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId ? {...task, completed: isCompleted} :task
+      )
+    );
+  }
+
   return (
     <div className="mt-1">
       <p className="text-neutral-700 font-bold text-4xl">Upcoming</p>
@@ -34,7 +42,7 @@ export default function Upcoming() {
       <div className="mt-3 p-4 rounded-lg border bg-gray-50 border-neutral-200">
         {tasks.length > 0 ? (
           tasks.map((task) => (
-            <Task key={task.id} task={task} onStarToggle={handleStarToggle} />
+            <Task key={task.id} task={task} onStarToggle={handleStarToggle} onCheckToggle={handleCheckToggle}/>
           ))
         ) : (
           <p className="text-neutral-500">No upcoming tasks.</p>

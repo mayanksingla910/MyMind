@@ -7,6 +7,7 @@ import CreateList from "./CreateList";
 export default function ListsSection({
   scrollRef,
   listItems,
+  setListItems,
   activeListIndex,
   setActiveListIndex,
   activeIndex,
@@ -18,6 +19,9 @@ export default function ListsSection({
   function openAddList() {
     setAddList(true);
   }
+  const handleDelete = (listId) => {
+    setListItems(prevList => prevList.filter(list => list.id !== listId));
+  };
 
   return (
     <div className="flex flex-col" style={{ maxHeight: maxHeight || "auto" }}>
@@ -27,8 +31,8 @@ export default function ListsSection({
         {listItems.map((list, index) => (
           <ListItem
             key={list.id}
-            name={list.name}
-            color={list.color}
+            list={list}
+            onDeleteList={handleDelete}
             active={activeListIndex === index}
             onClick={() => {
               setActiveListIndex(index);
