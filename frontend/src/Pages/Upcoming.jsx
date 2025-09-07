@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Task from "../components/task";
 import AddTask from "../components/ui/AddTask";
+import EditTask from "../components/editTask";
 
 export default function Upcoming() {
   const [tasks, setTasks] = useState([]);
+  const [isEditTask, setIsEditTask] = useState(false);
 
   useEffect(() => {
     async function getTasks() {
@@ -18,7 +20,6 @@ export default function Upcoming() {
     getTasks();
   }, []);
 
-  // Handler to update task starred flag locally on star toggle
   const handleStarToggle = (taskId, isStarred) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
@@ -36,18 +37,21 @@ export default function Upcoming() {
   }
 
   return (
+    <>
     <div className="mt-1">
       <p className="text-neutral-700 font-bold text-4xl">Upcoming</p>
       <AddTask />
       <div className="mt-3 p-4 rounded-lg border bg-gray-50 border-neutral-200">
         {tasks.length > 0 ? (
           tasks.map((task) => (
-            <Task key={task.id} task={task} onStarToggle={handleStarToggle} onCheckToggle={handleCheckToggle}/>
+            <Task key={task.id} task={task} onStarToggle={handleStarToggle} onClick={() => setIsEditTask(true)} onCheckToggle={handleCheckToggle}/>
           ))
         ) : (
           <p className="text-neutral-500">No upcoming tasks.</p>
         )}
       </div>
     </div>
+    {isEditTask && <EditTask />}
+    </>
   );
 }

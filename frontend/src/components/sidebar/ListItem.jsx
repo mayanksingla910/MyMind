@@ -31,7 +31,7 @@ export default function ListItem({ list, onClick, active, onDeleteList, onEditLi
       >
         {list.name}
       </span>
-      <div className="ml-auto flex invisible group-hover:visible space-x-2">
+      <div className="ml-auto flex invisible group-hover:visible ease-in-out space-x-2">
         <AnimatedRippleButton onClick={() => onEditList(list)}>
           <FontAwesomeIcon icon={faPen} className="text-neutral-500 w-4 h-4" />
         </AnimatedRippleButton>

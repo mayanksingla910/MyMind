@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import CustomCheckbox from "./ui/checkbox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarXmark, faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import AnimatedRippleButton from "./ui/animatedRippleButton";
+import { ListsContext } from "../context/listContext";
 
 export default function Task({ task, onStarToggle, onCheckToggle }) {
   // Local starred state to reflect immediate UI changes
   const [isStarred, setIsStarred] = useState(task.starred);
   const [isCompleted, setIsCompleted] = useState(task.completed);
+  const list = useContext(ListsContext)
 
   // Sync local state if task prop changes (e.g., updated from parent)
   useEffect(() => {
@@ -71,9 +73,17 @@ export default function Task({ task, onStarToggle, onCheckToggle }) {
         </div>
       </div>
 
-      <div className="flex items-center text-sm ml-9 text-neutral-600">
-        {formattedDueDate && <p className="mt-2 mb-1">{formattedDueDate}</p>}
-        {task.listId && <p className="ml-8 mt-2 mb-1">{task.listId}</p>}
+      <div className="flex items-center text-sm ml-9 text-neutral-500">
+        {formattedDueDate && 
+          <div className="flex items-center mt-2 mb-1">
+            <FontAwesomeIcon icon={faCalendarXmark} className="mr-2 " />
+            <p className="">{formattedDueDate}</p>
+          </div>}
+        {task.listId && 
+          <div>
+            <div className="w-4 h-4 rounded mr-3" style={{ background: list.color }} />
+            <p className="ml-8 mt-2 mb-1">{task.listId}</p>
+          </div>}
       </div>
     </div>
   );
