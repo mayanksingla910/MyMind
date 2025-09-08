@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Sidebar from './components/sidebar/Sidebar'
+import Sidebar from './components/sidebar/sidebar'
 import './App.css'
 import Upcoming from './pages/Upcoming'
 import List from '@mui/material/List'

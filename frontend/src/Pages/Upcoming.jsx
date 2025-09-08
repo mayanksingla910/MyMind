@@ -6,7 +6,7 @@ import EditTask from "../components/editTask";
 
 export default function Upcoming() {
   const [tasks, setTasks] = useState([]);
-  const [isEditTask, setIsEditTask] = useState(false);
+  const [isEditTask, setIsEditTask] = useState(true);
 
   useEffect(() => {
     async function getTasks() {
@@ -37,21 +37,23 @@ export default function Upcoming() {
   }
 
   return (
-    <>
-    <div className="mt-1">
-      <p className="text-neutral-700 font-bold text-4xl">Upcoming</p>
-      <AddTask />
-      <div className="mt-3 p-4 rounded-lg border bg-gray-50 border-neutral-200">
-        {tasks.length > 0 ? (
-          tasks.map((task) => (
-            <Task key={task.id} task={task} onStarToggle={handleStarToggle} onClick={() => setIsEditTask(true)} onCheckToggle={handleCheckToggle}/>
-          ))
-        ) : (
-          <p className="text-neutral-500">No upcoming tasks.</p>
-        )}
+    <div className="">
+      <div className={`mrt-1 ${isEditTask? "mr-[25rem]": ""}`}>
+        <p className="text-neutral-700 font-bold text-4xl">Upcoming</p>
+        <AddTask />
+        <div className="mt-3 p-4 rounded-lg border bg-gray-50 border-neutral-200">
+          {tasks.length > 0 ? (
+            tasks.map((task) => (
+              <Task key={task.id} task={task} onStarToggle={handleStarToggle} onClick={() => setIsEditTask(true)} onCheckToggle={handleCheckToggle}/>
+            ))
+          ) : (
+            <p className="text-neutral-500">No upcoming tasks.</p>
+          )}
+        </div>
+      </div>
+      <div className="">
+        {isEditTask && <EditTask />}
       </div>
     </div>
-    {isEditTask && <EditTask />}
-    </>
   );
 }
