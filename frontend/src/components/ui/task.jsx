@@ -1,41 +1,40 @@
 import { useState, useEffect, useContext } from "react";
-import CustomCheckbox from "./ui/checkbox";
+import CustomCheckbox from "./checkbox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { faCalendarXmark, faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarXmark, faChevronRight, faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
-import AnimatedRippleButton from "./ui/animatedRippleButton";
-import { ListsContext } from "../context/listContext";
+import AnimatedRippleButton from "./animatedRippleButton";
+import { ListsContext } from "../../context/listContext";
 
-export default function Task({ task, onStarToggle, onCheckToggle }) {
-  // Local starred state to reflect immediate UI changes
+export default function Task({ task, onStarToggle, onCheckToggle, onClick }) {
   const [isStarred, setIsStarred] = useState(task.starred);
   const [isCompleted, setIsCompleted] = useState(task.completed);
-  const list = useContext(ListsContext)
+  const {listItems, setListItems} = useContext(ListsContext)
 
-  // Sync local state if task prop changes (e.g., updated from parent)
   useEffect(() => {
     setIsStarred(task.starred);
     setIsCompleted(task.completed);
   }, [task]);
 
+  const currentList = listItems.find(list => list.id === task.listId);
+
   const formattedDueDate = task.dueAt
     ? new Date(task.dueAt).toLocaleDateString("en-GB")
     : "";
 
-  // Handle star toggling with optimistic UI update
   const changeStarred = async () => {
     const newStarred = !isStarred;
-    setIsStarred(newStarred); // Optimistically update UI
+    setIsStarred(newStarred); 
 
     try {
       await axios.put(`http://localhost:3000/api/tasks/${task.id}`, {
         starred: newStarred,
       });
-      if (onStarToggle) onStarToggle(task.id, newStarred); // Inform parent
+      if (onStarToggle) onStarToggle(task.id, newStarred);
     } catch (error) {
       console.error("Error marking task starred", error);
-      setIsStarred(!newStarred); // Revert on error
+      setIsStarred(!newStarred); 
     }
   };
 
@@ -56,11 +55,13 @@ export default function Task({ task, onStarToggle, onCheckToggle }) {
   }
 
   return (
-    <div className="items-center p-3 mb-2 rounded-lg bg-gray-50 hover:shadow-md transition-shadow cursor-pointer">
+    <div className="items-center p-3 mb-2 rounded-lg hover:shadow-md transition-all cursor-pointer group" onClick={onClick}>
       <div className="flex justify-between">
         <div className="flex flex-1 items-center">
-          <CustomCheckbox checked={task.completed} onChange={updateCompleted} />
-          <p className="ml-3 text-xl">{task.title}</p>
+          <div onClick={e => e.stopPropagation()}>
+            <CustomCheckbox checked={task.completed} onChange={updateCompleted}/>
+          </div>
+          <p className="ml-5 text-xl group-hover:font-semibold text-neutral-600">{task.title}</p>
         </div>
         <div className="flex items-center mr-4">
           <AnimatedRippleButton onClick={changeStarred} >
@@ -70,19 +71,23 @@ export default function Task({ task, onStarToggle, onCheckToggle }) {
               title={isStarred ? "Unstar task" : "Star task"}
             />
           </AnimatedRippleButton>
+            <FontAwesomeIcon 
+              icon={faChevronRight}
+              className="cursor-pointer text-neutral-600 ml-3"
+            />
         </div>
       </div>
 
-      <div className="flex items-center text-sm ml-9 text-neutral-500">
+      <div className="flex items-center text-sm font-medium ml-10 text-neutral-500">
         {formattedDueDate && 
-          <div className="flex items-center mt-2 mb-1">
-            <FontAwesomeIcon icon={faCalendarXmark} className="mr-2 " />
+          <div className="flex items-center mt-2 mb-1 mr-5">
+            <FontAwesomeIcon icon={faCalendarXmark} className="mr-2 text-lg" />
             <p className="">{formattedDueDate}</p>
           </div>}
         {task.listId && 
-          <div>
-            <div className="w-4 h-4 rounded mr-3" style={{ background: list.color }} />
-            <p className="ml-8 mt-2 mb-1">{task.listId}</p>
+          <div className="flex items-center mt-2 mb-1">
+            <div className="w-4 h-4 rounded mr-2" style={{ background: currentList.color }} />
+            <p className="">{currentList.name}</p>
           </div>}
       </div>
     </div>

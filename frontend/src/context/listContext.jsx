@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
-export const ListsContext = createContext();
+export const ListsContext = createContext([]);
 
 export function ListsProvider({ children }) {
   const [listItems, setListItems] = useState([]);

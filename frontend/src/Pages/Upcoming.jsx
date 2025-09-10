@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Task from "../components/task";
+import Task from "../components/ui/task";
 import AddTask from "../components/ui/AddTask";
-import EditTask from "../components/editTask";
+import EditTask from "../components/ui/editTask";
+import { is } from "date-fns/locale";
 
 export default function Upcoming() {
   const [tasks, setTasks] = useState([]);
-  const [isEditTask, setIsEditTask] = useState(true);
+  const [isEditTask, setIsEditTask] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   useEffect(() => {
     async function getTasks() {
@@ -35,16 +37,27 @@ export default function Upcoming() {
       )
     );
   }
+  const handleAddTask =(task) => {
+    setTasks((prevTasks) => [...prevTasks, task]);
+  }
+
+  const handleEditTask =(form) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === form.id ? form : task
+      )
+    );
+  }
 
   return (
     <div className="">
-      <div className={`mrt-1 ${isEditTask? "mr-[25rem]": ""}`}>
-        <p className="text-neutral-700 font-bold text-4xl">Upcoming</p>
-        <AddTask />
+      <div className={`mt-1 ${isEditTask? "mr-[25rem]": ""}`}>
+        <p className="text-neutral-700 mb-8 font-bold text-4xl">Upcoming</p>
+        <AddTask onAddtask={handleAddTask}/>
         <div className="mt-3 p-4 rounded-lg border bg-gray-50 border-neutral-200">
           {tasks.length > 0 ? (
             tasks.map((task) => (
-              <Task key={task.id} task={task} onStarToggle={handleStarToggle} onClick={() => setIsEditTask(true)} onCheckToggle={handleCheckToggle}/>
+              <Task key={task.id} task={task} onStarToggle={handleStarToggle} onClick={() => {setSelectedTask(task); setIsEditTask(true);}} onCheckToggle={handleCheckToggle}/>
             ))
           ) : (
             <p className="text-neutral-500">No upcoming tasks.</p>
@@ -52,7 +65,7 @@ export default function Upcoming() {
         </div>
       </div>
       <div className="">
-        {isEditTask && <EditTask />}
+        {isEditTask && <EditTask isEditTask={isEditTask} setIsEditTask={setIsEditTask} task={selectedTask} onEditTask={handleEditTask}/>}
       </div>
     </div>
   );
