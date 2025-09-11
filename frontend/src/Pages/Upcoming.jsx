@@ -9,6 +9,7 @@ export default function Upcoming() {
   const [tasks, setTasks] = useState([]);
   const [isEditTask, setIsEditTask] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [editEnable, setEditEnable] = useState(false);
 
   useEffect(() => {
     async function getTasks() {
@@ -36,10 +37,11 @@ export default function Upcoming() {
         task.id === taskId ? {...task, completed: isCompleted} :task
       )
     );
-  }
+  };
+  
   const handleAddTask =(task) => {
     setTasks((prevTasks) => [...prevTasks, task]);
-  }
+  };
 
   const handleEditTask =(form) => {
     setTasks((prevTasks) =>
@@ -47,7 +49,11 @@ export default function Upcoming() {
         task.id === form.id ? form : task
       )
     );
-  }
+  };
+
+  const handleDeleteTask = (taskId) => {
+    setTasks((prevTasks) => prevTasks.filter(task => task.id !== taskId));
+  };
 
   return (
     <div className="">
@@ -57,7 +63,7 @@ export default function Upcoming() {
         <div className="mt-3 p-4 rounded-lg border bg-gray-50 border-neutral-200">
           {tasks.length > 0 ? (
             tasks.map((task) => (
-              <Task key={task.id} task={task} onStarToggle={handleStarToggle} onClick={() => {setSelectedTask(task); setIsEditTask(true);}} onCheckToggle={handleCheckToggle}/>
+              <Task key={task.id} task={task} onStarToggle={handleStarToggle} onClick={() => {setSelectedTask(task); setIsEditTask(true);}} onCheckToggle={handleCheckToggle} setEditEnable={setEditEnable}/>
             ))
           ) : (
             <p className="text-neutral-500">No upcoming tasks.</p>
@@ -65,8 +71,9 @@ export default function Upcoming() {
         </div>
       </div>
       <div className="">
-        {isEditTask && <EditTask isEditTask={isEditTask} setIsEditTask={setIsEditTask} task={selectedTask} onEditTask={handleEditTask}/>}
+        {isEditTask && <EditTask isEditTask={isEditTask} setIsEditTask={setIsEditTask} task={selectedTask} onEditTask={handleEditTask} editEnable={editEnable} setEditEnable={setEditEnable} onDeleteTask={handleDeleteTask}/>}
       </div>
     </div>
   );
 }
+ 

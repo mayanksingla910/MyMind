@@ -56,26 +56,26 @@ export default function Sidebar({ open, setOpen, setIsSidebarHovered }) {
     >
       
       <SidebarHeader open={open} setOpen={setOpen} />
-
-      <TasksSection
-        activeIndex={activeIndex}
-        setActiveIndex={setActiveIndex}
-        setActiveListIndex={setActiveListIndex}
-      />
-      <div className="border-b border-neutral-200 my-3" />
-      <ListsSection
-        scrollRef={scrollRef}
-        listItems={listItems}
-        setListItems={setListItems}
-        activeListIndex={activeListIndex}
-        setActiveListIndex={setActiveListIndex}
-        activeIndex={activeIndex}
-        setActiveIndex={setActiveIndex}
-        addList={addList}
-        setAddList={setAddList}
-        maxHeight={maxHeight}
-      />
-
+      <div className="overflow-auto custom-scrollbar">
+        <TasksSection
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+          setActiveListIndex={setActiveListIndex}
+        />
+        <div className="border-b border-neutral-200 my-3" />
+        <ListsSection
+          scrollRef={scrollRef}
+          listItems={listItems}
+          setListItems={setListItems}
+          activeListIndex={activeListIndex}
+          setActiveListIndex={setActiveListIndex}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+          addList={addList}
+          setAddList={setAddList}
+          maxHeight={maxHeight}
+        />
+      </div>
       <div className="border-b border-neutral-200 my-2" />
       <SettingsSection
         settingsRef={settingsRef}

@@ -3,8 +3,11 @@ import axios from "axios";
 import { ListsContext } from "../../context/listContext";
 import ToggleSidebar from "./ToggleSidebar";
 import { Button } from "../ui/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import AnimatedRippleButton from "./animatedRippleButton";
 
-export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask }) {
+export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask, editEnable, setEditEnable, onDeleteTask }) {
   const { listItems } = useContext(ListsContext);
 
   const [form, setForm] = useState({
@@ -47,13 +50,35 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask }
     }
   };
 
+  const handleDelete = async () => {
+    setIsEditTask(false);
+    if (!editEnable) {
+      await deleteTask();
+    }
+  }
+
+  const deleteTask = async (e) => {
+    try{
+      await axios.delete(`http://localhost:3000/api/tasks/${task.id}`);
+      if(onDeleteTask) onDeleteTask(task.id);
+    }catch(error){
+      console.error("Error deleting task", error);
+    }
+  }
+  
+
   if (!isEditTask || !task) return null;
 
   return (
     <div className="fixed flex flex-col bottom-5 top-5 right-5 bg-gray-100 rounded-xl w-96 p-5 transition-all hover:shadow-lg focus-within:shadow-md z-50">
       <div className="flex justify-between mb-6">
         <p className="text-xl font-bold text-neutral-700">Edit Task</p>
-        <ToggleSidebar open={isEditTask} setOpen={setIsEditTask} />
+        <div className="flex items-center">
+          <AnimatedRippleButton onClick={() => setEditEnable(!editEnable)}>
+            <FontAwesomeIcon icon={faPen} className="text-neutral-500 "/>
+          </AnimatedRippleButton>
+          <ToggleSidebar open={isEditTask} setOpen={setIsEditTask} onClick={() => setEditEnable(false)}/>
+        </div>
       </div>
       <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
         <input
@@ -64,12 +89,14 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask }
           onChange={handleChange}
           className="bg-inherit p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 focus:shadow-md transition-all text-neutral-600 w-full"
           required
+          disabled={!editEnable}
         />
         <textarea
           name="description"
           value={form.description}
           placeholder="Description"
           onChange={handleChange}
+          disabled={!editEnable}
           className="bg-inherit p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 focus:shadow-md transition-all text-neutral-600 w-full max-h-72 min-h-40 resize-y"
         />
         <div className="grid grid-cols-3 items-center gap-4 w-3/4">
@@ -78,6 +105,7 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask }
             name="listId"
             value={form.listId}
             onChange={handleChange}
+            disabled={!editEnable}
             className="bg-inherit col-span-2 mt-1 p-2 rounded-lg border border-neutral-200 focus:outline-none focus:border-gray-400 focus:shadow-md transition-all text-neutral-600 cursor-pointer w-full"
           >
             <option value="">Select List</option>
@@ -94,6 +122,7 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask }
             name="dueDate"
             value={form.dueDate}
             onChange={handleChange}
+            disabled={!editEnable}
             className="bg-inherit col-span-2 mt-1 p-2 rounded-lg border border-neutral-200 focus:outline-none focus:border-gray-400 focus:shadow-md transition-all text-neutral-600 w-full"
           />
         </div>
@@ -102,11 +131,11 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask }
             type="button"
             variant="outline"
             className="flex-1"
-            onClick={() => setIsEditTask(false)}
+            onClick={handleDelete}
           >
-            Cancel
+            {editEnable? "Cancel": "Delete"}
           </Button>
-          <Button type="submit" className="flex-1" disabled={!form.title.trim()}>
+          <Button type="submit" className="flex-1" disabled={!form.title.trim() || !editEnable}>
             Save
           </Button>
         </div>

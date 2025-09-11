@@ -7,10 +7,11 @@ import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import AnimatedRippleButton from "./animatedRippleButton";
 import { ListsContext } from "../../context/listContext";
 
-export default function Task({ task, onStarToggle, onCheckToggle, onClick }) {
+export default function Task({ task, onStarToggle, onCheckToggle, onClick, setEditEnable }) {
   const [isStarred, setIsStarred] = useState(task.starred);
   const [isCompleted, setIsCompleted] = useState(task.completed);
   const {listItems, setListItems} = useContext(ListsContext)
+  const [iconHovered, setIconHovered] = useState(false);
 
   useEffect(() => {
     setIsStarred(task.starred);
@@ -63,7 +64,7 @@ export default function Task({ task, onStarToggle, onCheckToggle, onClick }) {
           </div>
           <p className="ml-5 text-xl group-hover:font-semibold text-neutral-600">{task.title}</p>
         </div>
-        <div className="flex items-center mr-4">
+        <div className={`flex items-center mr-4 group-hover:visible ${isStarred? "visible": "invisible"}`}>
           <AnimatedRippleButton onClick={changeStarred} >
             <FontAwesomeIcon
               icon={isStarred ? solidStar : regularStar}
@@ -71,10 +72,26 @@ export default function Task({ task, onStarToggle, onCheckToggle, onClick }) {
               title={isStarred ? "Unstar task" : "Star task"}
             />
           </AnimatedRippleButton>
-            <FontAwesomeIcon 
+          <div
+            className="relative ml-3 w-12 h-6 flex items-center select-none visible"
+            onMouseEnter={() => setIconHovered(true)}
+            onMouseLeave={() => setIconHovered(false)}
+            onClick={e => { e.stopPropagation(); onClick && onClick(); }}
+          >
+            <FontAwesomeIcon
               icon={faChevronRight}
-              className="cursor-pointer text-neutral-600 ml-3"
+              className={`   transition-all duration-200 
+                ${iconHovered ? "opacity-0 scale-90" : "opacity-100 scale-100"}`}
             />
+            <span
+              className={` -translate-x-5 text-neutral-500 text-sm px-2 py-0.5 rounded font-semibold border border-neutral-300 transition-all duration-200
+                ${iconHovered ? "opacity-100 scale-100" : "opacity-0 scale-110"}
+              `}
+              onClick={() => setEditEnable(true)}
+            >
+              Edit
+            </span>
+          </div>
         </div>
       </div>
 

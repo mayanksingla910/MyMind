@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-export default function ToggleSidebar({ open, setOpen }) {
+export default function ToggleSidebar({ open, setOpen, onClick }) {
   return (
     <button
-      onClick={() => setOpen(!open)}
+      onClick={() => {setOpen(!open); onClick();}}
       className="relative w-8 h-8 flex flex-col justify-center items-center"
     >
       {/* Top bar */}

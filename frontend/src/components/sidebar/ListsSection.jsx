@@ -41,7 +41,7 @@ export default function ListsSection({
     <div className="flex flex-col" style={{ maxHeight: maxHeight || "auto" }}>
       <p className="text-xs font-bold text-neutral-700 mb-2">LISTS</p>
 
-      <div ref={scrollRef} className="overflow-y-auto ml-1 pr-1 custom-scrollbar" style={{ maxHeight: maxHeight || "auto" }}>
+      <div ref={scrollRef} className="overflow-y-auto ml-1 pr-1 custom-scrollbar min-h-20" style={{ maxHeight: maxHeight || "auto" }}>
         {listItems.map((list, index) => (
           <ListItem
             key={list.id}

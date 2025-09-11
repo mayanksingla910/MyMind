@@ -11,7 +11,7 @@ function MainLayout({ children }) {
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-">
       <ListsProvider>
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} setIsSidebarHovered={setIsSidebarHovered} />
       <main className={`flex-1 transition-margin duration-300 ${(sidebarOpen || isSidebarHovered )? "ml-[19rem] " : "ml-10"} p-6 overflow-auto`}>
