@@ -73,7 +73,7 @@ export default function Task({ task, onStarToggle, onCheckToggle, onClick, setEd
             />
           </AnimatedRippleButton>
           <div
-            className="relative ml-3 w-12 h-6 flex items-center select-none visible"
+            className=" ml-3 w-12 h-6 flex items-center select-none visible"
             onMouseEnter={() => setIconHovered(true)}
             onMouseLeave={() => setIconHovered(false)}
             onClick={e => { e.stopPropagation(); onClick && onClick(); }}
@@ -97,10 +97,11 @@ export default function Task({ task, onStarToggle, onCheckToggle, onClick, setEd
 
       <div className="flex items-center text-sm font-medium ml-10 text-neutral-500">
         {formattedDueDate && 
-          <div className="flex items-center mt-2 mb-1 mr-5">
+          <div className="flex items-center mt-2 mb-1">
             <FontAwesomeIcon icon={faCalendarXmark} className="mr-2 text-lg" />
             <p className="">{formattedDueDate}</p>
           </div>}
+        {(formattedDueDate && task.listId) && <div className="h-7 w-0.5 rounded-xl bg-neutral-300 mt-1 my-auto mx-4" /> }
         {task.listId && 
           <div className="flex items-center mt-2 mb-1">
             <div className="w-4 h-4 rounded mr-2" style={{ background: currentList.color }} />

@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Sidebar from './components/sidebar/sidebar'
 import './App.css'
 import Upcoming from './pages/Upcoming'
-import List from '@mui/material/List'
 import { ListsProvider } from './context/listContext'
 
 function MainLayout({ children }) {

@@ -3,13 +3,14 @@ import axios from "axios";
 import Task from "../components/ui/task";
 import AddTask from "../components/ui/AddTask";
 import EditTask from "../components/ui/editTask";
-import { is } from "date-fns/locale";
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "../components/ui/select";
 
 export default function Upcoming() {
   const [tasks, setTasks] = useState([]);
   const [isEditTask, setIsEditTask] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [editEnable, setEditEnable] = useState(false);
+  const [priceRange, setPriceRange] = useState("name");
 
   useEffect(() => {
     async function getTasks() {
@@ -59,7 +60,24 @@ export default function Upcoming() {
     <div className="">
       <div className={`mt-1 ${isEditTask? "mr-[25rem]": ""}`}>
         <p className="text-neutral-700 mb-8 font-bold text-4xl">Upcoming</p>
-        <AddTask onAddtask={handleAddTask}/>
+        <AddTask onAddtask={handleAddTask} className="col-span-5"/>
+        <div>
+          <div>
+            <label className="block text-sm font-medium mb-2">Price Range</label>
+              <Select value={priceRange} onValueChange={setPriceRange}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Prices</SelectItem>
+                  <SelectItem value="0-25">$0 - $25</SelectItem>
+                  <SelectItem value="25-50">$25 - $50</SelectItem>
+                  <SelectItem value="50-100">$50 - $100</SelectItem>
+                  <SelectItem value="100">$100+</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+        </div>
         <div className="mt-3 p-4 rounded-lg border bg-gray-50 border-neutral-200">
           {tasks.length > 0 ? (
             tasks.map((task) => (

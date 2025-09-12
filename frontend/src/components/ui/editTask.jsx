@@ -52,6 +52,7 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask, 
 
   const handleDelete = async () => {
     setIsEditTask(false);
+    setEditEnable(false);
     if (!editEnable) {
       await deleteTask();
     }
