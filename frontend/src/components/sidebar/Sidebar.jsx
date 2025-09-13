@@ -10,11 +10,16 @@ export default function Sidebar({ open, setOpen, setIsSidebarHovered }) {
   const [activeIndex, setActiveIndex] = useState(null);
   const [addList, setAddList] = useState(false);
   const {listItems, setListItems} = useContext(ListsContext);
-  const [activeListIndex, setActiveListIndex] = useState(null);
+  const [activeListIndex, setActiveListIndex] = useState([]);
 
   const scrollRef = useRef(null);
   const settingsRef = useRef(null);
   const [maxHeight, setMaxHeight] = useState(null);
+
+  useEffect(() => {
+    setActiveListIndex(listItems.map(list => list.id));
+  }, [listItems]);
+
 
   useEffect(() => {
     function updateMaxHeight() {
@@ -60,7 +65,6 @@ export default function Sidebar({ open, setOpen, setIsSidebarHovered }) {
         <TasksSection
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
-          setActiveListIndex={setActiveListIndex}
         />
         <div className="border-b border-neutral-200 my-3" />
         <ListsSection
@@ -69,8 +73,6 @@ export default function Sidebar({ open, setOpen, setIsSidebarHovered }) {
           setListItems={setListItems}
           activeListIndex={activeListIndex}
           setActiveListIndex={setActiveListIndex}
-          activeIndex={activeIndex}
-          setActiveIndex={setActiveIndex}
           addList={addList}
           setAddList={setAddList}
           maxHeight={maxHeight}

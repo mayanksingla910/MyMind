@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ListsContext } from "../../context/listContext";
 import { Button } from "../ui/Button";
+import { Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from "./select";
 
 export default function AddTask({ onAddTask }) {
   const { listItems } = useContext(ListsContext);
@@ -12,14 +13,14 @@ export default function AddTask({ onAddTask }) {
   const [form, setForm] = useState({
     title: "",
     description: "",
-    dueDate: "",
+    dueAt: "",
     listId: "",
   });
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (formRef.current && formRef.current.contains(event.target)) return;
-      if (event.target.closest('.MuiDateCalendar-root')) return;
+      if (event.target.closest('')) return;
       setExpanded(false);
     }
     if (expanded) {
@@ -38,7 +39,7 @@ export default function AddTask({ onAddTask }) {
   const createTask = async () => {
     try {
       const res = await axios.post("http://localhost:3000/api/tasks", form);
-      setForm({ title: "", description: "", dueDate: "", listId: "" });
+      setForm({ title: "", description: "", dueAt: "", listId: "" });
       setExpanded(false);
       if (onAddTask) onAddTask(res.data);
     } catch (error) {
@@ -48,16 +49,17 @@ export default function AddTask({ onAddTask }) {
 
   return (
     <form
-      className={`mt-4 p-3 flex flex-col border rounded-lg border-gray-300 gap-3 w-full 
+      className={`mt-4 p-3 flex flex-col border rounded-lg border-gray-300 gap-3 w-full cursor-text 
                   ${expanded ? "p-4" : "p-3"}`}
+                   onClick={() => setExpanded(true)}
       onSubmit={(e) => {
         e.preventDefault();
         createTask();
       }}
     >
       {!expanded && (
-        <div className="ml-2 flex items-center text-lg text-neutral-500 font-medium cursor-text" onClick={() => setExpanded(true)}>
-          <FontAwesomeIcon icon={faPlus} className="mr-2" />
+        <div className="pl-2 flex items-center text-lg text-neutral-500 font-medium cursor-text">
+          <FontAwesomeIcon icon={faPlus} className="mr-2 cursor-pointer" />
           <span className="w-full">Add a new task...</span>
         </div>
       )}
@@ -83,26 +85,30 @@ export default function AddTask({ onAddTask }) {
           <div className="grid grid-cols-2 gap-4 w-1/2 p-4">
             <label className="flex flex-col text-neutral-600 w-full text-sm">
               List
-              <select
-                name="listId"
-                value={form.listId}
-                onChange={handleChange}
-                className="mt-1 p-2 rounded-lg border border-neutral-200 text-neutral-600 cursor-pointer w-full focus:outline-none"
-              >
-                <option value="">Select List</option>
-                {listItems.map((list) => (
-                  <option key={list.id} value={list.id}>
-                    {list.name}
-                  </option>
-                ))}
-              </select>
+              <Select 
+                value={form.listId || ""} 
+                onValueChange={(val) => setForm(prev => ({ ...prev, listId: val }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select List" />
+                </SelectTrigger>
+                <SelectContent className=" bg-white">
+                  <SelectItem value="none">
+                    Select List
+                  </SelectItem>
+                  {listItems.map(list => (
+                    <SelectItem key={list.id} value={list.id.toString()}>
+                      {list.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </label>
             <label className="flex flex-col text-neutral-600 text-sm">
               Due Date
               <input
                 type="date"
-                name="dueDate"
-                value={form.dueDate}
+                name="dueAt"
+                value={form.dueAt}
                 onChange={handleChange}
                 className="mt-1 p-2 rounded-lg border border-neutral-200 text-neutral-600 w-full focus:outline-none"
               />
@@ -114,9 +120,10 @@ export default function AddTask({ onAddTask }) {
               variant="outline"
               size="lg"
               className="w-1/2"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 setExpanded(false);
-                setForm({ title: "", description: "", dueDate: "", listId: "" });
+                setForm({ title: "", description: "", dueAt: "", listId: "" });
               }}
             >
               Cancel

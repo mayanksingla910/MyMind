@@ -20,7 +20,6 @@ export default function TasksSection({ activeIndex, setActiveIndex, setActiveLis
             active={activeIndex === index}
             onClick={() => {
               setActiveIndex(index);
-              setActiveListIndex(null);
             }}
           />
         ))}

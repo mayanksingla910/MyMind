@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import AnimatedRippleButton from "../ui/animatedRippleButton";
 import axios from "axios";
 
@@ -18,10 +18,10 @@ export default function ListItem({ list, onClick, active, onDeleteList, onEditLi
     <li
       onClick={onClick}
       className={`flex items-center p-2 my-1 rounded-lg cursor-pointer group
-        ${active ? "bg-gray-200" : ""}
         hover:bg-gray-200`}
     >
-      <div className="w-4 h-4 rounded mr-3" style={{ background: list.color }} />
+      <div className={` flex w-4 h-4 rounded mr-3 items-center justify-center border-2`} style={{ background: active? list.color: undefined, borderColor: list.color }}>
+      </div>
       <span
         className={`${
           active
@@ -32,7 +32,7 @@ export default function ListItem({ list, onClick, active, onDeleteList, onEditLi
         {list.name}
       </span>
       <div className="ml-auto flex invisible group-hover:visible ease-in-out space-x-2">
-        <AnimatedRippleButton onClick={() => onEditList(list)}>
+        <AnimatedRippleButton onClick={(e) => onEditList(list)}>
           <FontAwesomeIcon icon={faPen} className="text-neutral-500 w-4 h-4" />
         </AnimatedRippleButton>
         <AnimatedRippleButton onClick={deleteList}>

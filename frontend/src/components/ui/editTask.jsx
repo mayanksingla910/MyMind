@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import axios from "axios";
 import { ListsContext } from "../../context/listContext";
 import ToggleSidebar from "./ToggleSidebar";
@@ -6,9 +6,11 @@ import { Button } from "../ui/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import AnimatedRippleButton from "./animatedRippleButton";
+import { Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from "./select";
 
 export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask, editEnable, setEditEnable, onDeleteTask }) {
   const { listItems } = useContext(ListsContext);
+  const formRef = useRef(null);
 
   const [form, setForm] = useState({
     title: "",
@@ -16,6 +18,20 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask, 
     listId: "",
     dueDate: "",
   });
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (formRef.current && formRef.current.contains(event.target)) return;
+      if (event.target.closest('.radix-<<r1rn>>')) return;
+      setIsEditTask(false);
+    }
+    if (isEditTask) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isEditTask]);
 
   useEffect(() => {
     if (task) {
@@ -51,9 +67,9 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask, 
   };
 
   const handleDelete = async () => {
-    setIsEditTask(false);
     setEditEnable(false);
     if (!editEnable) {
+      setIsEditTask(false);
       await deleteTask();
     }
   }
@@ -71,7 +87,7 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask, 
   if (!isEditTask || !task) return null;
 
   return (
-    <div className="fixed flex flex-col bottom-5 top-5 right-5 bg-gray-100 rounded-xl w-96 p-5 transition-all hover:shadow-lg focus-within:shadow-md z-50">
+    <div ref={formRef} className="fixed flex flex-col bottom-5 top-5 right-5 bg-gray-100 rounded-xl w-96 p-5 transition-all hover:shadow-lg focus-within:shadow-md z-50">
       <div className="flex justify-between mb-6">
         <p className="text-xl font-bold text-neutral-700">Edit Task</p>
         <div className="flex items-center">
@@ -102,21 +118,26 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask, 
         />
         <div className="grid grid-cols-3 items-center gap-4 w-3/4">
           <label className="flex flex-col col-span-1 text-neutral-600 text-sm">List</label>
-          <select
-            name="listId"
-            value={form.listId}
-            onChange={handleChange}
-            disabled={!editEnable}
-            className="bg-inherit col-span-2 mt-1 p-2 rounded-lg border border-neutral-200 focus:outline-none focus:border-gray-400 focus:shadow-md transition-all text-neutral-600 cursor-pointer w-full"
-          >
-            <option value="">Select List</option>
-            {listItems.map((list) => (
-              <option key={list.id} value={list.id}>
-                {list.name}
-              </option>
-            ))}
-          </select>
-
+          <div className="col-span-2 ">
+          <Select 
+            value={form.listId || ""} 
+            onValueChange={(val) => setForm(prev => ({ ...prev, listId: val }))}
+            className="rounded-lg border border-neutral-200 focus:outline-none focus:border-gray-400 focus:shadow-md transition-all text-neutral-600">
+            <SelectTrigger>
+              <SelectValue placeholder="Select List" />
+            </SelectTrigger>
+            <SelectContent className="bg-gray-100">
+              <SelectItem value="none">
+                Select List
+              </SelectItem>
+              {listItems.map(list => (
+                <SelectItem key={list.id} value={list.id.toString()}>
+                  {list.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          </div>
           <label className="flex flex-col col-span-1 text-neutral-600 text-sm">Due Date</label>
           <input
             type="date"

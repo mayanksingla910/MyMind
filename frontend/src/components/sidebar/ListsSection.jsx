@@ -11,20 +11,18 @@ export default function ListsSection({
   setListItems,
   activeListIndex,
   setActiveListIndex,
-  activeIndex,
-  setActiveIndex,
   addList,
   setAddList,
   maxHeight,
 }) {
 
   const [updateList, setUpdateList] = useState(false);
-  const [editList, SetEditList] = useState({});
+  const [editList, setEditList] = useState({});
 
   function openAddList() {
     setAddList(true);
     setUpdateList(false);
-    SetEditList({});
+    setEditList({});
   }
   const handleDelete = (listId) => {
     setListItems(prevList => prevList.filter(list => list.id !== listId));
@@ -47,11 +45,13 @@ export default function ListsSection({
             key={list.id}
             list={list}
             onDeleteList={handleDelete}
-            onEditList = {(list)=> {setAddList(false); setUpdateList(true); SetEditList(list)}}
-            active={activeListIndex === index}
+            onEditList = {(list)=> {setAddList(false); setUpdateList(true); setEditList(list)}}
+            active={activeListIndex.includes(list.id)}
             onClick={() => {
-              setActiveListIndex(index);
-              setActiveIndex(null);
+              setActiveListIndex((prevLists) => 
+                prevLists.includes(list.id)
+                ?prevLists.filter((id) => id !== list.id)
+                :[...prevLists, list.id]);
             }}
           />
         ))}
