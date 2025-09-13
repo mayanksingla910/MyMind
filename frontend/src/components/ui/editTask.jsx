@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import AnimatedRippleButton from "./animatedRippleButton";
 import { Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from "./select";
+import { backend_URL } from "../../lib/urlUtil";
 
 export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask, editEnable, setEditEnable, onDeleteTask }) {
   const { listItems } = useContext(ListsContext);
@@ -52,7 +53,7 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask, 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(`http://localhost:3000/api/tasks/${task.id}`, {
+      const res = await axios.put(`${backend_URL}/tasks/${task.id}`, {
         title: form.title,
         description: form.description,
         listId: form.listId,
@@ -76,7 +77,7 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask, 
 
   const deleteTask = async (e) => {
     try{
-      await axios.delete(`http://localhost:3000/api/tasks/${task.id}`);
+      await axios.delete(`${backend_URL}/tasks/${task.id}`);
       if(onDeleteTask) onDeleteTask(task.id);
     }catch(error){
       console.error("Error deleting task", error);
@@ -122,7 +123,8 @@ export default function EditTask({ isEditTask, setIsEditTask, task, onEditTask, 
           <Select 
             value={form.listId || ""} 
             onValueChange={(val) => setForm(prev => ({ ...prev, listId: val }))}
-            className="rounded-lg border border-neutral-200 focus:outline-none focus:border-gray-400 focus:shadow-md transition-all text-neutral-600">
+            disabled={!editEnable}
+            className="">
             <SelectTrigger>
               <SelectValue placeholder="Select List" />
             </SelectTrigger>

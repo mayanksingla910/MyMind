@@ -5,6 +5,7 @@ import TasksSection from "./taskSection";
 import ListsSection from "./listsSection";
 import SettingsSection from "./SettingSection";
 import { ListsContext } from "../../context/listContext";
+import { backend_URL } from "../../lib/urlUtil";
 
 export default function Sidebar({ open, setOpen, setIsSidebarHovered }) {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -47,7 +48,7 @@ export default function Sidebar({ open, setOpen, setIsSidebarHovered }) {
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/lists")
+    axios.get(`${backend_URL}/lists`)
       .then(response => setListItems(response.data))
       .catch(error => console.error("Error fetching lists", error));
   }, [addList]);

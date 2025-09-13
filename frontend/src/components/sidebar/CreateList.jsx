@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Button } from "../ui/Button";
+import { backend_URL } from "../../lib/urlUtil";
 
 const COLORS = [
   "#FF6B6B", "#DA77F2", "#9775FA", "#5C7CFA", "#66D9E8", "#8CE99A", "#FFD43B", "#FF922B",
@@ -12,7 +13,7 @@ export default function CreateList({ setAddList }) {
 
   async function createList() {
     try {
-      await axios.post("http://localhost:3000/api/lists", { name: listName, color: selectedColor });
+      await axios.post(`${backend_URL}/lists`, { name: listName, color: selectedColor });
       setListName("");
       setAddList(false);
     } catch (error) {

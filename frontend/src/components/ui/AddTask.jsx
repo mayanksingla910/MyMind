@@ -5,6 +5,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ListsContext } from "../../context/listContext";
 import { Button } from "../ui/Button";
 import { Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from "./select";
+import { backend_URL } from "../../lib/urlUtil";
 
 export default function AddTask({ onAddTask }) {
   const { listItems } = useContext(ListsContext);
@@ -38,7 +39,7 @@ export default function AddTask({ onAddTask }) {
 
   const createTask = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/api/tasks", form);
+      const res = await axios.post(`${backend_URL}/tasks`, form);
       setForm({ title: "", description: "", dueAt: "", listId: "" });
       setExpanded(false);
       if (onAddTask) onAddTask(res.data);

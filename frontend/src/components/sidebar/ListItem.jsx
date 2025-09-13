@@ -2,12 +2,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import AnimatedRippleButton from "../ui/animatedRippleButton";
 import axios from "axios";
+import { backend_URL } from "../../lib/urlUtil";
 
 export default function ListItem({ list, onClick, active, onDeleteList, onEditList }) {
   const deleteList = async (e) => {
 
     try {
-      await axios.delete(`http://localhost:3000/api/lists/${list.id}`);
+      await axios.delete(`${backend_URL}/lists/${list.id}`);
       if (onDeleteList) onDeleteList(list.id);
     } catch (error) {
       console.error("Error deleting list", error);

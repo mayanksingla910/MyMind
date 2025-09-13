@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Button } from "../ui/Button";
+import { backend_URL } from "../../lib/urlUtil";
 
 const COLORS = [
   "#FF6B6B", "#DA77F2", "#9775FA", "#5C7CFA", "#66D9E8", "#8CE99A", "#FFD43B", "#FF922B",
@@ -12,7 +13,7 @@ export default function UpdateList({ list, setUpdateList, onUpdateList }) {
 
   async function updateList() {
     try {
-      const res = await axios.put(`http://localhost:3000/api/lists/${list.id}`, { name: listName, color: selectedColor });
+      const res = await axios.put(`${backend_URL}/lists/${list.id}`, { name: listName, color: selectedColor });
       setListName("");
       setUpdateList(false);
       if(onUpdateList) onUpdateList(res.data);

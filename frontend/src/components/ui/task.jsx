@@ -6,6 +6,7 @@ import { faCalendarXmark, faChevronRight, faStar as solidStar } from "@fortaweso
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import AnimatedRippleButton from "./animatedRippleButton";
 import { ListsContext } from "../../context/listContext";
+import { backend_URL } from "../../lib/urlUtil";
 
 export default function Task({ task, onStarToggle, onCheckToggle, onClick, setEditEnable }) {
   const [isStarred, setIsStarred] = useState(task.starred);
@@ -29,7 +30,7 @@ export default function Task({ task, onStarToggle, onCheckToggle, onClick, setEd
     setIsStarred(newStarred); 
 
     try {
-      await axios.put(`http://localhost:3000/api/tasks/${task.id}`, {
+      await axios.put(`${backend_URL}/tasks/${task.id}`, {
         starred: newStarred,
       });
       if (onStarToggle) onStarToggle(task.id, newStarred);
@@ -44,7 +45,7 @@ export default function Task({ task, onStarToggle, onCheckToggle, onClick, setEd
     setIsCompleted(newCompleted);
 
     try{
-      await axios.put(`http://localhost:3000/api/tasks/${task.id}`,{
+      await axios.put(`${backend_URL}/tasks/${task.id}`,{
         completed: newCompleted,
       });
       if(onCheckToggle) onCheckToggle(task.id, newCompleted);
